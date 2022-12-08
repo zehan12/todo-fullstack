@@ -1,8 +1,15 @@
+require("dotenv").config()
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-const createError = require("http-errors")
+const createError = require("http-errors");
+const { connect, set } = require("mongoose");
 
+set('strictQuery', true)
+connect(process.env.MONGO_URI,(err)=>{
+    console.log(`conntect to Database: ${ err ? "false due to " + err : "true" }`)
+})
+ 
 const app = express();
 
 const PORT = 8018;
@@ -15,6 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // * Routes * // 
 app.use('/', require("./routes/index"));
+app.use("/api/todo", require("./routes/todo"));
 
 
 // * Handle Errors * //

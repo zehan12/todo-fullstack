@@ -1,7 +1,9 @@
-const Button = ( { handleSubmit } ) => {
+const Button = ( { handleFunction } ) => {
     return(
-        <button onClick={(e)=>handleSubmit(e)}>
-            submit
+        <button onClick={()=>handleFunction(true)}
+        className="inline-block h-auto m-4 p-2 border-none font-semibold text-xl capitalize cursor-pointer overflow-hidden bg-gray-300 hover:bg-gray-400"
+        >
+            Add Todo
         </button>
     )
 }

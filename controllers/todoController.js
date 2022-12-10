@@ -101,13 +101,35 @@ const getTodo = async (req, res, next) => {
     }
 }
 
-const isCompletedTodo = async ( req, res, next ) => {
+const isCompletedTodo = async (req, res, next) => {
     console.log(req.method, req.body);
+    const { isCompleted } = req.body
     try {
+        const body = {};
         const { id } = req.params;
-        console.log(id,"id")
-        // const { }
-    } catch ( error ) {
+        const { userId } =  req.user;
+        if (isCompleted) {
+            body.isCompleted = true;
+            body.completedAt = new Date().toLocaleTimeString()
+        } else {
+            body.isCompleted = false;
+            body.completedAt = null
+        }
+        const todo = await Todo.findOneAndUpdate(
+            {
+                id,
+                author: userId
+            },
+            {
+                $set: body
+            },
+            {
+                new: true
+            }
+        );
+        successMessage.todo = todo;
+        res.status(status.success).json(successMessage)
+    } catch (error) {
         errorMessage.error = error.message
         res.status(status.bad).json(errorMessage);
     }

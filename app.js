@@ -21,8 +21,9 @@ app.use(express.urlencoded({ extended: false }));
 
 
 // * Routes * // 
-app.use('/', require("./routes/index"));
-app.use("/api/todo", require("./routes/todo"));
+app.use('/', require("./routes/index") );
+app.use("/api/todo", require("./routes/todo") );
+app.use("/api/users", require("./routes/user") );
 
 
 // * Handle Errors * //

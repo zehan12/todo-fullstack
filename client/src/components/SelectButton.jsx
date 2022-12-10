@@ -1,6 +1,6 @@
 const SelectButton = ( { options } ) => {
     return(
-        <select>
+        <select className="">
             {options}
         </select>
     )

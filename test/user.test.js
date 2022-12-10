@@ -3,8 +3,10 @@ const expect = chai.expect;
 const { createUser } = require('../controllers/usersController');
 const User = require('../models/User');
 const { status} = require('../utils/status');
+const request = require("supertest")("http://localhost:8018/api")
+require("../routes/user")
 
-describe('createUser', () => {
+describe('POST /signup  createUser', () => {
     it('should return error if email, password, or name is empty', async () => {
         const req = {
             body: {
@@ -77,6 +79,33 @@ describe('createUser', () => {
         }
     })
 
+    
+
+    it('should create a new user', async () => {
+        const res = await request
+          .post('/users/signup')
+          .send({
+            name:"zehan",
+            email: 'test@example.com',
+            password: 'password123'
+          });
+        expect(res.status).to.eql(status.success)
+        // expect(res.body).toHaveProperty('user');
+        // expect(res.body.user).toHaveProperty('email', 'test@example.com');
+        // expect(res.body.user).toHaveProperty('token');
+      });
+    
+      it('should return an error if the email is already in use', async () => {
+        const res = await request
+          .post('/users/signup')
+          .send({
+            name: "zehan",
+            email: 'test@example.com',
+            password: 'password123'
+          });
+        expect(res.status).to.eql(status.success)
+        // expect(res.body).toHaveProperty('message', 'user already exist');
+      });
     
 
 

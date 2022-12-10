@@ -1,6 +1,7 @@
 const Todo = require("../models/Todo");
 const User = require("../models/User");
 const { errorMessage, successMessage, status } = require("../utils/status");
+const { empty } = require("../utils/validation")
 
 const createTodo = async (req, res, next) => {
     const { userId } = req.user
@@ -36,30 +37,87 @@ const getAllTodo = async (req, res, next) => {
     }
 }
 
-const deleteTodo = async ( req, res, next ) => {
+const deleteTodo = async (req, res, next) => {
     try {
         const { id } = req.params;
         const todo = await Todo.findOneAndDelete(id)
-        if ( !todo ) {
+        if (!todo) {
             errorMessage.error = "Todo not found to delete"
             return res.status(status.bad).json(errorMessage)
         }
         successMessage.todo = todo;
         successMessage.deleted = true;
         return res.status(status.success).json(successMessage)
-    } catch  (error) {
+    } catch (error) {
         errorMessage.error = error.message
         return res.status(status.bad).json(errorMessage)
     }
 }
 
-const updateTodo  = async ( req, res, next ) => {
-    console.log(req.body)
+const updateTodo = async (req, res, next) => {
+    try {
+
+        const body = {};
+        if (req.body) {
+            if (!empty(req.body.description)) {
+                body.description = req.body.description;
+            }
+            if (!empty(req.body.title)) {
+                body.title = req.body.title;
+            }
+        }
+
+        const { id } = req.params;
+        const { userId } = req.user;
+        const todo = await Todo.findOneAndUpdate(
+            {
+                id,
+                author: userId
+            },
+            {
+                $set: body
+            },
+            {
+                new: true
+            }
+        );
+        successMessage.todo = todo
+        res.status(status.success).json(successMessage)
+    } catch (error) {
+        errorMessage.error = error.message
+        res.status(status.bad).json(errorMessage);
+    }
+}
+
+const getTodo = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const todo = await Todo.findById(id);
+        successMessage.todo = todo
+        res.status(status.success).json(successMessage)
+    } catch (error) {
+        errorMessage.error = error.message
+        res.status(status.bad).json(errorMessage);
+    }
+}
+
+const isCompletedTodo = async ( req, res, next ) => {
+    console.log(req.method, req.body);
+    try {
+        const { id } = req.params;
+        console.log(id,"id")
+        // const { }
+    } catch ( error ) {
+        errorMessage.error = error.message
+        res.status(status.bad).json(errorMessage);
+    }
 }
 
 module.exports = {
     createTodo,
     getAllTodo,
     deleteTodo,
-    updateTodo
+    updateTodo,
+    getTodo,
+    isCompletedTodo
 }

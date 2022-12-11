@@ -73,8 +73,18 @@ const siginUser = async (req, res, next) => {
     }
 }
 
+const getUser = async ( req, res, next ) =>{ 
+    const { email } = req.body
+    const user = await User.findOne({email})
+    const token = await user.signToken();
+    successMessage.user = user.userJSON(token)
+    successMessage.token = token
+    res.status(status.success).json(successMessage)
+}
+
 module.exports =
 {
     createUser,
-    siginUser
+    siginUser,
+    getUser
 };

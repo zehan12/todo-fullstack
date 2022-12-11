@@ -102,7 +102,6 @@ const getTodo = async (req, res, next) => {
 }
 
 const isCompletedTodo = async (req, res, next) => {
-    console.log(req.method, req.body);
     const { isCompleted } = req.body
     try {
         const body = {};

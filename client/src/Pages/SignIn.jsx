@@ -1,13 +1,19 @@
-import { Fragment, useState, useContext } from "react";
+import React, { Fragment, useState, useContext } from "react";
 import Confetti from "../components/Confetti";
-import BASE_URL  from "../utils/constant";
+import BASE_URL from "../utils/constant";
 import { useNavigate } from "react-router-dom";
+import { StateContext } from "../store/UserContextReducer";
+// import { initialState } from "../container/Main"
 
-const SignIn = ({handleLogin,isLogedIn}) => {
 
+const SignIn = () => {
+    const { state } = useContext(StateContext);
+    const { dispatch } = useContext(StateContext);
+
+    console.log(state)
     const Navigate = useNavigate()
-    const [formError, setFormError ] = useState([])
-    const [ show, setShow ] = useState(false); 
+    const [formError, setFormError] = useState([])
+    const [show, setShow] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
     const [error, setError] = useState("");
@@ -15,23 +21,22 @@ const SignIn = ({handleLogin,isLogedIn}) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(email, password)
-        const res = await fetch(BASE_URL+"/users/login",{
-            method:"POST",      
+        const res = await fetch(BASE_URL + "/users/login", {
+            method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })      
+            body: JSON.stringify({ email, password })
         })
         const data = await res.json();
-        if ( data.login ) {
+        if (data.login) {
             setShow(true)
-            let user = JSON.stringify({
-                id:data.user.id,
-                token:data.user.token
-            })
-            localStorage.setItem("user_token",user);
-            handleLogin()
-            setTimeout(() => Navigate("/"), 4000)
+            let local = {
+                email: data.user.email,
+                token: data.user.token
+            }
+            dispatch({ type: 'LOGIN', payload: { user:data.user, local } })
+            // setTimeout(() => Navigate("/"), 4000)
         }
-        if ( data.error ) setError(data.error)
+        if (data.error) setError(data.error)
 
         console.log(data)
     }
@@ -40,6 +45,7 @@ const SignIn = ({handleLogin,isLogedIn}) => {
 
     return (
         <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8 mt-20">
+
             <Confetti show={show} />
 
             <div className="w-full max-w-md space-y-8">
@@ -50,12 +56,22 @@ const SignIn = ({handleLogin,isLogedIn}) => {
                             <strong class="block font-medium text-red-700"> Error Something went wrong ! </strong>
 
                             <p class="mt-2 text-sm text-red-700">
-                              {error}
+                                {error}
                             </p>
                         </div> :
                         <div className="bg-white text-white h-20"> {"e"} </div>
                 }
-
+                <Fragment>
+                    <button
+                        onClick={() => dispatch({ type: 'LOGIN', payload: { user: {  } } })}                    >
+                        Log In
+                    </button>
+                    <button
+                        onClick={() => dispatch({ type: 'LOGOUT' })}
+                    >
+                        Log Out
+                    </button>
+                </Fragment>
                 <div>
 
                     <h2 className="mt-6 text-center text-4xl font-bold tracking-tight text-gray-900">
@@ -98,26 +114,6 @@ const SignIn = ({handleLogin,isLogedIn}) => {
                         />
                     </div>
                 </div>
-
-                {/* <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                  Remember me
-                </label>
-              </div>
-
-              <div className="text-sm">
-                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Forgot your password?
-                </a>
-              </div>
-            </div> */}
 
                 <div>
                     <button

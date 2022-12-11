@@ -1,26 +1,22 @@
 import { Route, Routes, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { StateContext } from "../store/UserContextReducer";
 import Home from "../Pages/Home";
 import SignIn from "../Pages/SignIn";
 
 
-const AllRoutes = ({ handleLogin, isLogedIn }) => {
-
-    console.log(isLogedIn,"allroutes")
+const AllRoutes = () => {
+    const { state: { isLoggedIn } } = useContext(StateContext);
     return (
         <div>
-            {/* header */}
             <Routes>
                 <Route
                     path="/"
-                    element={isLogedIn ? <Home isLoginIn={isLogedIn} /> : <Navigate to="/signin" />  }
+                    element={isLoggedIn ? <Home /> : <Navigate to="/signin" />}
                 />
                 <Route
                     path="/signin"
-                    element={
-                        <SignIn
-                            isLoginIn={isLogedIn}
-                            handleLogin={handleLogin}
-                        />}
+                    element={<SignIn />}
                 />
             </Routes>
         </div>

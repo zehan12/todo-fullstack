@@ -5,7 +5,6 @@ const empty = (input) => {
     return false;
 };
 
-
 //Email Check
 const isValidEmail = (email) => {
     const regEx = /\S+@\S+\.\S+/;

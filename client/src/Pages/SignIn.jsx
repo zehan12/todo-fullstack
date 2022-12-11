@@ -34,7 +34,7 @@ const SignIn = () => {
                 token: data.user.token
             }
             dispatch({ type: 'LOGIN', payload: { user:data.user, local } })
-            // setTimeout(() => Navigate("/"), 4000)
+            setTimeout(() => Navigate("/"), 4000)
         }
         if (data.error) setError(data.error)
 

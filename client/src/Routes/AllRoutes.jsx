@@ -7,12 +7,13 @@ import SignIn from "../Pages/SignIn";
 
 const AllRoutes = () => {
     const { state: { isLoggedIn } } = useContext(StateContext);
+    console.log(isLoggedIn,"login state")
     return (
         <div>
             <Routes>
                 <Route
                     path="/"
-                    element={isLoggedIn ? <Home /> : <Navigate to="/signin" />}
+                    element={isLoggedIn ? <Home /> : <SignIn />}
                 />
                 <Route
                     path="/signin"

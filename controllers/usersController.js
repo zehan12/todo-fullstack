@@ -67,6 +67,7 @@ const siginUser = async (req, res, next) => {
         const token = await user.signToken();
         successMessage.login = true
         successMessage.user = user.userJSON(token)
+        successMessage.user.id = user.id 
         return res.status(status.success).json(successMessage);
     } catch (error) {
         return next(error);
@@ -78,6 +79,7 @@ const getUser = async ( req, res, next ) =>{
     const user = await User.findOne({email})
     const token = await user.signToken();
     successMessage.user = user.userJSON(token)
+    successMessage.user.id = user.id 
     successMessage.token = token
     res.status(status.success).json(successMessage)
 }

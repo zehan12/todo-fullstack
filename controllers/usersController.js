@@ -75,11 +75,10 @@ const siginUser = async (req, res, next) => {
 }
 
 const getUser = async ( req, res, next ) =>{ 
-    const { email } = req.body
-    const user = await User.findOne({email})
+    const { userId } = req.user.userId;
+    const user = await User.findOne({id:userId})
     const token = await user.signToken();
     successMessage.user = user.userJSON(token)
-    successMessage.user.id = user.id 
     successMessage.token = token
     res.status(status.success).json(successMessage)
 }

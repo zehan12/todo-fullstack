@@ -3,11 +3,12 @@ import { useContext } from "react";
 import { StateContext } from "../store/UserContextReducer";
 import Home from "../Pages/Home";
 import SignIn from "../Pages/SignIn";
+import SignUp from "../Pages/SignUp";
 
 
 const AllRoutes = () => {
     const { state: { isLoggedIn } } = useContext(StateContext);
-    console.log(isLoggedIn,"login state")
+    console.log(isLoggedIn, "login state")
     return (
         <div>
             <Routes>
@@ -18,6 +19,11 @@ const AllRoutes = () => {
                 <Route
                     path="/signin"
                     element={<SignIn />}
+                />
+
+                <Route
+                    path="/signup"
+                    element={<SignUp />}
                 />
             </Routes>
         </div>

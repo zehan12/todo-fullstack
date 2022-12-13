@@ -957,6 +957,11 @@
   "resolved" "https://registry.npmjs.org/camelcase/-/camelcase-6.3.0.tgz"
   "version" "6.3.0"
 
+"canvas-confetti@^1.6.0":
+  "integrity" "sha512-ej+w/m8Jzpv9Z7W7uJZer14Ke8P2ogsjg4ZMGIuq4iqUOqY2Jq8BNW42iGmNfRwREaaEfFIczLuZZiEVSYNHAA=="
+  "resolved" "https://registry.npmjs.org/canvas-confetti/-/canvas-confetti-1.6.0.tgz"
+  "version" "1.6.0"
+
 "chai@^4.3.7":
   "integrity" "sha512-HLnAzZ2iupm25PlN0xFreAlBA5zaBSv3og0DdeGA4Ar6h6rJ3A0rolRUKJhSF2V10GZKDgWF/VmAEsNWjCRB+A=="
   "resolved" "https://registry.npmjs.org/chai/-/chai-4.3.7.tgz"

@@ -39,14 +39,16 @@ const getAllTodo = async (req, res, next) => {
 
 const deleteTodo = async (req, res, next) => {
     try {
+        console.log(req.params.id)
         const { id } = req.params;
-        const todo = await Todo.findOneAndDelete(id)
+        const todo = await Todo.findByIdAndDelete(id)
         if (!todo) {
             errorMessage.error = "Todo not found to delete"
             return res.status(status.bad).json(errorMessage)
         }
         successMessage.todo = todo;
         successMessage.deleted = true;
+        console.log("message:",successMessage,"success messagee")
         return res.status(status.success).json(successMessage)
     } catch (error) {
         errorMessage.error = error.message

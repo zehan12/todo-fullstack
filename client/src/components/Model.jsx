@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import BASE_URL from '../utils/constant';
+import { Token, BASE_URL } from '../utils/constant';
 
 function Modal({ isOpen, handleOpen }) {
 
@@ -7,14 +7,13 @@ function Modal({ isOpen, handleOpen }) {
     const [description, setDescription] = useState("");
 
     const handleSubmit = async (event) => {
-        const { token } = JSON.parse(localStorage["user_token"])
         event.preventDefault();
-        console.log(title, description, token);
+        console.log(title, description, Token);
         const res = await fetch(BASE_URL + "/todo", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
-                authorization: token
+                authorization: Token
             },
             body: JSON.stringify({ title, description })
         })

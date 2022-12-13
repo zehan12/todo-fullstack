@@ -6,7 +6,7 @@ router.post('/signup', userFunction.createUser );
 
 router.post('/login', userFunction.siginUser );
 
-router.post("/get", auth.verifyToken,  userFunction.getUser )
+router.get("/get", auth.verifyToken,  userFunction.getUser )
 
 
 module.exports = router;

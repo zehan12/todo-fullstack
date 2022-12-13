@@ -3,9 +3,8 @@ import AllRoutes from "../Routes/AllRoutes";
 import Header from "../components/Header";
 import React, { useReducer, useEffect } from 'react';
 import { StateContext, stateReducer, initialState } from "../store/UserContextReducer";
-import BASE_URL from "../utils/constant";
-
-
+import { Token, BASE_URL } from "../utils/constant";
+import { Toaster } from 'react-hot-toast';
 
 
 const Main = () => {
@@ -13,33 +12,31 @@ const Main = () => {
     const [state, dispatch] = useReducer(stateReducer, initialState);
 
     // this logic work on reload of app
-    const isUserAuthenticate = async (token, email) => {
-        const res = await fetch(BASE_URL + "/users/get", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                authorization: token
-            },
-            body: JSON.stringify({ email })
-        })
-        const data = await res.json();
-        console.log(data)
-        if (data.user.token) {
-            let local = {
-                email: data.user.email,
-                token: data.token
-            }
-            dispatch({ type: 'LOGIN', payload: { user: data.user, local } })
+    const isUserAuthenticate = async (token) => {
+        try {
+            const res = await fetch(BASE_URL + "/users/get", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: token
+                }
+            })
+            const data = await res.json();
+            dispatch({ type: 'LOGIN', payload: { user: data.user, token: data.user.token } })
+        } catch (error) {
+            console.error(error);
+
         }
     }
 
-    useEffect(() => {
-        if (localStorage["user_token"] && localStorage["user_token"] !== "undefined" && JSON.parse(localStorage.user_token).token) {
-            let local = JSON.parse(localStorage.user_token)
-            console.log("user must login", local);
-            isUserAuthenticate(local.token, local.email)
+    useEffect( () => {
+        if (Token) {
+            isUserAuthenticate(Token)
         }
-    }, [])
+    },[])
+
+
+    console.log(Token)
 
     return (
         <div>
@@ -51,11 +48,21 @@ const Main = () => {
 
                     <AllRoutes />
 
+                    <Toaster
+                        position="top-right"
+                        toastOptions={{
+                            style: {
+                                fontFamily: "sans-serif",
+                                fontSize: '14px',
+                                fontWeight: "500"
+                            },
+                        }}
+                    />
+
                 </StateContext.Provider>
 
             </BrowserRouter>
         </div>
     )
 }
-
-export default Main;
+export default Main

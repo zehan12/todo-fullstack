@@ -7,9 +7,11 @@ function Modal({ isOpen, handleOpen }) {
     const [description, setDescription] = useState("");
 
     const handleSubmit = async (event) => {
-        const { token } = JSON.parse(localStorage["user_token"])
+        // const { token } = JSON.parse(localStorage["user_token"])
+        const Token  = localStorage["user_token"] ? localStorage["user_token"] : "";
+
         event.preventDefault();
-        console.log(title, description, token);
+        // console.log(title, description, token);
         const res = await fetch(BASE_URL + "/todo", {
             method: "POST",
             headers: {
@@ -19,7 +21,7 @@ function Modal({ isOpen, handleOpen }) {
             body: JSON.stringify({ title, description })
         })
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         handleOpen(true)
 
     }

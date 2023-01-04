@@ -11,10 +11,10 @@ export const StateContext = React.createContext(initialState);
 
 // Define a reducer to handle state updates
 export const stateReducer = (state, action) => {
-    console.log(action)
+    console.log(action,"actions")
     switch (action.type) {
         case 'LOGIN':
-            localStorage.setItem("user_token",JSON.stringify(action.payload.local))
+            localStorage.setItem("user_token",action.payload.user.token)
             return {
                 isLoggedIn: true,
                 user: action.payload.user

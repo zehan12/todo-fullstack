@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { StateContext } from "../store/UserContextReducer";
 // import { initialState } from "../container/Main"
 
+// console.log(BASE_URL)
 
 const SignIn = () => {
     const { state } = useContext(StateContext);
     const { dispatch } = useContext(StateContext);
 
-    console.log(state)
+    // console.log(state)
     const Navigate = useNavigate()
     const [formError, setFormError] = useState([])
     const [show, setShow] = useState(false);
@@ -20,7 +21,7 @@ const SignIn = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(email, password)
+        // console.log(email, password)
         const res = await fetch(BASE_URL + "/users/login", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -29,11 +30,7 @@ const SignIn = () => {
         const data = await res.json();
         if (data.login) {
             setShow(true)
-            let local = {
-                email: data.user.email,
-                token: data.user.token
-            }
-            dispatch({ type: 'LOGIN', payload: { user:data.user, local } })
+            dispatch({ type: 'LOGIN', payload: { user:data.user} })
             setTimeout(() => Navigate("/"), 4000)
         }
         if (data.error) setError(data.error)
@@ -52,10 +49,10 @@ const SignIn = () => {
                 {
                     error ?
 
-                        <div role="alert" class="rounded border-l-4 border-red-500 bg-red-50 p-4">
-                            <strong class="block font-medium text-red-700"> Error Something went wrong ! </strong>
+                        <div role="alert" className="rounded border-l-4 border-red-500 bg-red-50 p-4">
+                            <strong className="block font-medium text-red-700"> Error Something went wrong ! </strong>
 
-                            <p class="mt-2 text-sm text-red-700">
+                            <p className="mt-2 text-sm text-red-700">
                                 {error}
                             </p>
                         </div> :

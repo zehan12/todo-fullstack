@@ -4,7 +4,9 @@ const User = require("../models/User");
 
 const createUser = async (req, res, next) => {
 
+    console.log(req.body)
     const { name, email, password } = req.body;
+    console.log(name,email,password)
     if (empty(email) || empty(name) || empty(password)) {
         errorMessage.error = 'Email, password, and name field cannot be empty';
         return res.status(status.bad).send(errorMessage);
@@ -74,19 +76,37 @@ const siginUser = async (req, res, next) => {
     }
 }
 
+// const getUser = async ( req, res, next ) =>{ 
+//     const { email } = req.body
+//     const user = await User.findOne({email})
+//     const token = await user.signToken();
+//     successMessage.user = user.userJSON(token)
+//     successMessage.user.id = user.id 
+//     successMessage.token = token
+//     res.status(status.success).json(successMessage)
+// }
+
 const getUser = async ( req, res, next ) =>{ 
-    const { email } = req.body
-    const user = await User.findOne({email})
+    console.log(req.headers.authorization,"token")
+    const { userId } = req.user;
+    const user = await User.findOne({id:userId})
     const token = await user.signToken();
     successMessage.user = user.userJSON(token)
-    successMessage.user.id = user.id 
     successMessage.token = token
     res.status(status.success).json(successMessage)
 }
+
+const logout = ( req, res, next ) => {
+    req.user  = {}
+    successMessage.logout = "OK"
+    return res.status(status.success).json(successMessage)
+}
+
 
 module.exports =
 {
     createUser,
     siginUser,
-    getUser
+    getUser,
+    logout
 };

@@ -1,11 +1,16 @@
 import { useContext } from "react";
 import { StateContext } from "../store/UserContextReducer";
 import { NavLink, useLocation } from "react-router-dom"
+import BASE_URL from "../utils/constant";
 
 const Header = () => {
     const { state: { isLoggedIn } } = useContext(StateContext);
     const { dispatch } = useContext(StateContext);
     const location = useLocation();
+
+    const handleLogout = async ( ) => {
+        await fetch(BASE_URL+"/users/logout",{method:"DELETE"});
+    }
 
     let gradientColor = 'from-green-500 to-green-800';
     if (location.pathname === '/signin') {
@@ -32,7 +37,9 @@ const Header = () => {
                             isLoggedIn ?
                                 <>
 
-                                    <li onClick={() => dispatch({ type: 'LOGOUT' })}
+                                    <li onClick={() => { dispatch({ type: 'LOGOUT' })
+                                    handleLogout()
+                                }}
                                         className="text-sm text-black font-bold ml-4 ">
 
                                         Logout

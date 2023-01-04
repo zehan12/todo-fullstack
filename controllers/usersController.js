@@ -87,8 +87,12 @@ const siginUser = async (req, res, next) => {
 // }
 
 const getUser = async ( req, res, next ) =>{ 
+<<<<<<< HEAD
     console.log(req.headers.authorization,"token")
     const { userId } = req.user;
+=======
+    const { userId } = req.user.userId;
+>>>>>>> cd19febd9bf59a9cb4f9feeb668962fcc365f380
     const user = await User.findOne({id:userId})
     const token = await user.signToken();
     successMessage.user = user.userJSON(token)

@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useContext } from "react";
 import Confetti from "../components/Confetti";
-import BASE_URL from "../utils/constant";
+import {BASE_URL} from "../utils/constant";
 import { useNavigate } from "react-router-dom";
 import { StateContext } from "../store/UserContextReducer";
 // import { initialState } from "../container/Main"
@@ -30,7 +30,12 @@ const SignIn = () => {
         const data = await res.json();
         if (data.login) {
             setShow(true)
+<<<<<<< HEAD
             dispatch({ type: 'LOGIN', payload: { user:data.user} })
+=======
+            console.log(data,"time of login")
+            dispatch({ type: 'LOGIN', payload: { user:data.user, token: data.user.token } })
+>>>>>>> cd19febd9bf59a9cb4f9feeb668962fcc365f380
             setTimeout(() => Navigate("/"), 4000)
         }
         if (data.error) setError(data.error)

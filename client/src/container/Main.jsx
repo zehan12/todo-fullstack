@@ -3,10 +3,15 @@ import AllRoutes from "../Routes/AllRoutes";
 import Header from "../components/Header";
 import React, { useReducer, useEffect } from 'react';
 import { StateContext, stateReducer, initialState } from "../store/UserContextReducer";
+<<<<<<< HEAD
 import BASE_URL from "../utils/constant";
 import { token } from "morgan";
 
 
+=======
+import { Token, BASE_URL } from "../utils/constant";
+import { Toaster } from 'react-hot-toast';
+>>>>>>> cd19febd9bf59a9cb4f9feeb668962fcc365f380
 
 
 const Main = () => {
@@ -15,6 +20,7 @@ const Main = () => {
 
     // this logic work on reload of app
     const isUserAuthenticate = async (token) => {
+<<<<<<< HEAD
         console.log(token, "in main")
         const Token = localStorage.getItem('user_token');
 
@@ -47,6 +53,32 @@ const Main = () => {
         //     isUserAuthenticate(token)
         // }
     }, [])
+=======
+        try {
+            const res = await fetch(BASE_URL + "/users/get", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: token
+                }
+            })
+            const data = await res.json();
+            dispatch({ type: 'LOGIN', payload: { user: data.user, token: data.user.token } })
+        } catch (error) {
+            console.error(error);
+
+        }
+    }
+
+    useEffect( () => {
+        if (Token) {
+            isUserAuthenticate(Token)
+        }
+    },[])
+
+
+    console.log(Token)
+>>>>>>> cd19febd9bf59a9cb4f9feeb668962fcc365f380
 
     return (
         <div>
@@ -58,11 +90,21 @@ const Main = () => {
 
                     <AllRoutes />
 
+                    <Toaster
+                        position="top-right"
+                        toastOptions={{
+                            style: {
+                                fontFamily: "sans-serif",
+                                fontSize: '14px',
+                                fontWeight: "500"
+                            },
+                        }}
+                    />
+
                 </StateContext.Provider>
 
             </BrowserRouter>
         </div>
     )
 }
-
-export default Main;
+export default Main

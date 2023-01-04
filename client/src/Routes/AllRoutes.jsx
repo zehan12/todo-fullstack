@@ -20,6 +20,10 @@ const AllRoutes = () => {
                     path="/signin"
                     element={<SignIn />}
                 />
+<<<<<<< HEAD
+=======
+
+>>>>>>> cd19febd9bf59a9cb4f9feeb668962fcc365f380
                 <Route
                     path="/signup"
                     element={<SignUp />}

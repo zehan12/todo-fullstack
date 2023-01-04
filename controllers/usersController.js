@@ -6,7 +6,7 @@ const createUser = async (req, res, next) => {
 
     console.log(req.body)
     const { name, email, password } = req.body;
-    console.log(name,email,password)
+    console.log(name, email, password)
     if (empty(email) || empty(name) || empty(password)) {
         errorMessage.error = 'Email, password, and name field cannot be empty';
         return res.status(status.bad).send(errorMessage);
@@ -69,7 +69,7 @@ const siginUser = async (req, res, next) => {
         const token = await user.signToken();
         successMessage.login = true
         successMessage.user = user.userJSON(token)
-        successMessage.user.id = user.id 
+        successMessage.user.id = user.id
         return res.status(status.success).json(successMessage);
     } catch (error) {
         return next(error);
@@ -86,22 +86,14 @@ const siginUser = async (req, res, next) => {
 //     res.status(status.success).json(successMessage)
 // }
 
-const getUser = async ( req, res, next ) =>{ 
-<<<<<<< HEAD
-    console.log(req.headers.authorization,"token")
-    const { userId } = req.user;
-=======
+const getUser = async (req, res, next) => {
     const { userId } = req.user.userId;
->>>>>>> cd19febd9bf59a9cb4f9feeb668962fcc365f380
-    const user = await User.findOne({id:userId})
     const token = await user.signToken();
-    successMessage.user = user.userJSON(token)
-    successMessage.token = token
     res.status(status.success).json(successMessage)
 }
 
-const logout = ( req, res, next ) => {
-    req.user  = {}
+const logout = (req, res, next) => {
+    req.user = {}
     successMessage.logout = "OK"
     return res.status(status.success).json(successMessage)
 }

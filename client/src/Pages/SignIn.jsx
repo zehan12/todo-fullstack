@@ -30,12 +30,7 @@ const SignIn = () => {
         const data = await res.json();
         if (data.login) {
             setShow(true)
-<<<<<<< HEAD
             dispatch({ type: 'LOGIN', payload: { user:data.user} })
-=======
-            console.log(data,"time of login")
-            dispatch({ type: 'LOGIN', payload: { user:data.user, token: data.user.token } })
->>>>>>> cd19febd9bf59a9cb4f9feeb668962fcc365f380
             setTimeout(() => Navigate("/"), 4000)
         }
         if (data.error) setError(data.error)
